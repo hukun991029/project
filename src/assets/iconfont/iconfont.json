@@ -1,0 +1,58 @@
+{
+  "id": "3494290",
+  "name": "ant-design",
+  "font_family": "iconfont",
+  "css_prefix_text": "icon-",
+  "description": "",
+  "glyphs": [
+    {
+      "icon_id": "666885",
+      "name": "设置",
+      "font_class": "shezhi",
+      "unicode": "e68f",
+      "unicode_decimal": 59023
+    },
+    {
+      "icon_id": "9828823",
+      "name": "语言切换",
+      "font_class": "ziyuan",
+      "unicode": "e620",
+      "unicode_decimal": 58912
+    },
+    {
+      "icon_id": "10593835",
+      "name": "用户-角色-用户名-单人_jurassic",
+      "font_class": "jurassic_user",
+      "unicode": "e6a4",
+      "unicode_decimal": 59044
+    },
+    {
+      "icon_id": "17782869",
+      "name": "退出",
+      "font_class": "tuichu",
+      "unicode": "e88c",
+      "unicode_decimal": 59532
+    },
+    {
+      "icon_id": "4347517",
+      "name": "icon_疑问空心",
+      "font_class": "icon_yiwenkongxin",
+      "unicode": "eb89",
+      "unicode_decimal": 60297
+    },
+    {
+      "icon_id": "18724138",
+      "name": "通知",
+      "font_class": "tongzhi",
+      "unicode": "e628",
+      "unicode_decimal": 58920
+    },
+    {
+      "icon_id": "4333451",
+      "name": "搜索",
+      "font_class": "suosou",
+      "unicode": "e60b",
+      "unicode_decimal": 58891
+    }
+  ]
+}

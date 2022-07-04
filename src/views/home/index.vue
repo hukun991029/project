@@ -1,8 +1,8 @@
 <script lang="ts" setup>
-import MainHeader from '../main/MainHeader.vue';
-import MainContent from '../main/MainContent.vue';
-import MainSlide from '../main/MainSlide.vue';
-import MainFooter from '../main/MainFooter.vue';
+import MainHeader from '@/components/GlobalMain/MainHeader.vue';
+import MainContent from '@/components/GlobalMain/MainContent.vue';
+import MainSlide from '@/components/GlobalMain/MainSlide.vue';
+import MainFooter from '@/components/GlobalMain/MainFooter.vue';
 </script>
 <template>
     <a-layout>
