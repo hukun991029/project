@@ -2,7 +2,7 @@
  * @Author: hukun 1228836483@qq.com
  * @Date: 2022-07-31 01:24:09
  * @LastEditors: Ikun
- * @LastEditTime: 2023-01-08 01:53:31
+ * @LastEditTime: 2023-01-08 12:23:02
  * @FilePath: /code/project/src/utils/axios.ts
  * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
  */
@@ -33,12 +33,15 @@ instance.interceptors.response.use((res) => {
     switch (code) {
         case 200:
             return data;
-        case 10001:
+        case 400:
             message.error(msg || CODE.PARAMS_ERROR);
             return Promise.reject(msg || CODE.PARAMS_ERROR);
-        case 30001:
+        case 401:
             message.error(msg || CODE.USER_LOGIN_ERROR);
             return Promise.reject(msg || CODE.USER_LOGIN_ERROR);
+        case 422:
+            message.error(msg || CODE.USER_VALID_ERROR);
+            return Promise.reject(msg || CODE.USER_VALID_ERROR);
     }
 });
 

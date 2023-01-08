@@ -18,13 +18,12 @@ const formState = reactive<FormState>({
 const store = useStore();
 const router = useRouter();
 const onFinish = async (values: any) => {
-    console.log(values);
-
-    let params = toRaw(values);
-    const salt = bcrypt.genSaltSync(10);
-    params.password = bcrypt.hashSync(params.password, salt);
+    // console.log(values);
+    // let params = toRaw(values);
+    // const salt = bcrypt.genSaltSync(10);
+    // params.password = bcrypt.hashSync(params.password, salt);
     try {
-        let res = await login(params);
+        const res = await login(values);
         // store.setUserInfo(res);
         router.push({ path: '/home/personal' });
     } catch (error) {
