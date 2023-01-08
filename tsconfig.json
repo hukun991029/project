@@ -10,8 +10,18 @@
         "resolveJsonModule": true,
         "isolatedModules": true,
         "esModuleInterop": true,
-        "lib": ["esnext", "dom"],
-        "noImplicitAny": false
+        "lib": [
+            "esnext",
+            "dom"
+        ],
+        "noImplicitAny": false,
+        "experimentalDecorators": true,
+        "baseUrl": "./",
+        "paths": {
+            "@/*": [
+                "src/*"
+            ]
+        },
     },
     "include": [
         "src/**/*.ts",
@@ -21,5 +31,4 @@
         "src/router/index.js",
         "src/utils/canvas.ts"
     ],
-    "references": [{ "path": "./tsconfig.node.json" }]
 }

@@ -1,10 +1,5 @@
-<script>
-export default {
-    name: 'MainFooter'
-};
-</script>
 <script lang="ts" setup></script>
-<template></template>
-<style lang="scss" scoped>
-
-</style>
+<template>
+    <div>111</div>
+</template>
+<style lang="scss" scoped></style>

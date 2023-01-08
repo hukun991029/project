@@ -1,16 +1,20 @@
 <script setup lang="ts">
-import { watch, reactive } from 'vue';
+import { watch, reactive, ref } from 'vue';
 import { useRouter, useRoute } from 'vue-router';
 import Icon from '../../utils/icon';
-let router = useRouter();
+import Collapse from '../Collapse/index.vue';
+import defaultRoute from '@/router/defaultRoute';
+const router = useRouter();
 const route = useRoute();
 console.log(router);
 console.log(route.path);
+console.log(defaultRoute);
 
 const state = reactive({
     rootSubmenuKeys: ['1', '2', '3', '4', '5'],
     openKeys: ['personal-info'],
-    selectedKeys: [route.path]
+    selectedKeys: [route.path],
+    preOpenKeys: []
 });
 watch(
     () => route.path,
@@ -29,22 +33,30 @@ const onOpenChange = (openKeys: string[]) => {
 };
 
 const handleClick = (e) => {
-    console.log('e.key', e.key);
-    router.push(e.key);
+    console.log('e.key');
+    router.push({ path: e.key });
 };
+
+// 控制菜单折叠和展开
+const isCollapse = ref<boolean>(false);
+watch(
+    () => isCollapse,
+    (newVal, oldVal) => {
+        state.openKeys = !!newVal ? [] : state.preOpenKeys;
+    }
+);
 </script>
 
 <template>
-    <a-layout-sider class="slide" width="200" style="background: #fff">
+    <a-layout-sider class="slide" v-model:collapsed="isCollapse" :trigger="null" collapsible>
         <a-menu
             v-model:selectedKeys="state.selectedKeys"
-            style="width: 200px"
             mode="inline"
             :open-keys="state.openKeys"
             @openChange="onOpenChange"
             @click="handleClick"
         >
-            <a-sub-menu v-for="(item, index) in router.options.routes[0].children" :key="index + 1">
+            <a-sub-menu v-for="item in defaultRoute" :key="item.path">
                 <template #icon>
                     <Icon :name="item.meta.icon"></Icon>
                 </template>
@@ -56,10 +68,22 @@ const handleClick = (e) => {
                 </a-menu-item>
             </a-sub-menu>
         </a-menu>
+        <Collapse v-model:isCollapse="isCollapse"></Collapse>
     </a-layout-sider>
 </template>
 <style lang="scss" scoped>
 .slide {
     height: calc(100vh - 64px);
+    background-color: #fff;
+    overflow: auto;
+    ::v-deep(.ant-layout-sider-trigger) {
+        background-color: #fff;
+    }
+}
+
+#components-layout-demo-side .logo {
+    height: 32px;
+    margin: 16px;
+    background: rgba(255, 255, 255, 0.3);
 }
 </style>

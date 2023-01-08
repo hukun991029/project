@@ -1,5 +1,5 @@
 import { createRouter, RouteRecordRaw, createWebHistory } from 'vue-router';
-import { h, resolveComponent } from 'vue';
+import defaultRoute from './defaultRoute';
 // const RouteView = {
 //     name: 'RouteView',
 //     render: (h) => h('router-view')
@@ -8,32 +8,17 @@ import { h, resolveComponent } from 'vue';
 const routes: Array<RouteRecordRaw> = [
     {
         path: '/',
-        component: () => import('../views/home/index.vue'),
-        children: [
-            {
-                path: '/personal',
-                name: 'Personal',
-                component: {
-                    render: () => h(resolveComponent('router-view'))
-                },
-                meta: {
-                    title: '个人信息',
-                    icon: 'QqOutlined'
-                },
-                children: [
-                    {
-                        path: '/personal/info',
-                        name: 'PersonalInfo',
-                        component: () => import('../views/personal-info/index.vue'),
-                        meta: {
-                            title: '测试跳转',
-                            icon: 'QqOutlined'
-                        }
-                    }
-                ]
-            }
-        ]
-    }
+        redirect: '/login'
+    },
+    {
+        path: '/login',
+        name: 'Login',
+        component: () => import('../views/login/index.vue'),
+        meta: {
+            title: '登录'
+        }
+    },
+    ...defaultRoute
 ];
 
 const router = createRouter({

@@ -1,6 +1,11 @@
 <script lang="ts" setup>
+import { useRouter } from 'vue-router';
+const router = useRouter();
 const menuClick = ({ key }) => {
-    console.log(key);
+    if (key === 'loginOut') {
+        localStorage.clear();
+        router.push('/login');
+    }
 };
 </script>
 <template>
