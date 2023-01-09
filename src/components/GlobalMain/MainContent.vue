@@ -6,10 +6,8 @@ console.log(route);
 <template>
     <a-layout-content
         :style="{
-            margin: '24px 16px',
-            padding: '24px',
-            background: '#fff',
-            height: 'calc(100vh - 112px)'
+            padding: '0px 24px 24px',
+            background: '#f2f3fc'
         }"
     >
         <a-breadcrumb style="margin: 16px 0">

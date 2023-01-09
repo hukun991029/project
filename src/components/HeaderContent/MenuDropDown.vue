@@ -1,8 +1,11 @@
 <script lang="ts" setup>
 import { useRouter } from 'vue-router';
+import userStore from '@/store/store';
 const router = useRouter();
+const store = userStore();
 const menuClick = ({ key }) => {
     if (key === 'loginOut') {
+        store.clearUserInfo();
         localStorage.clear();
         router.push('/login');
     }

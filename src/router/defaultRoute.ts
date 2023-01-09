@@ -1,18 +1,19 @@
 // import { h, resolveComponent } from 'vue';
 const defaultRoute = [
     {
-        path: '/home',
-        component: () => import('@/views/home/index.vue'),
+        path: '/system-management',
+        component: () => import('@/views/layout/index.vue'),
+        redirect: '/system-management/user-management',
         meta: {
-            title: '测试跳转',
+            title: '系统管理',
             icon: 'QqOutlined'
         },
         children: [
             {
-                path: '/home/personal',
-                component: () => import('../views/personal-info/index.vue'),
+                path: '/system-management/user-management',
+                component: () => import('../views/system-manage/user-manage/index.vue'),
                 meta: {
-                    title: '测试跳转',
+                    title: '用户管理',
                     icon: 'QqOutlined'
                 }
             }

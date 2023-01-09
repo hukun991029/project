@@ -1,8 +1,7 @@
 <script lang="ts" setup>
-import bcrypt from 'bcryptjs';
 import { login } from '@/api/login';
-import useStore from '@/store/store';
-import { reactive, toRaw } from 'vue';
+import userStore from '@/store/store';
+import { reactive } from 'vue';
 import { useRouter } from 'vue-router';
 import { UserOutlined, LockOutlined } from '@ant-design/icons-vue';
 interface FormState {
@@ -15,17 +14,14 @@ const formState = reactive<FormState>({
     password: '',
     checked: false
 });
-const store = useStore();
+const store = userStore();
 const router = useRouter();
 const onFinish = async (values: any) => {
-    // console.log(values);
-    // let params = toRaw(values);
-    // const salt = bcrypt.genSaltSync(10);
-    // params.password = bcrypt.hashSync(params.password, salt);
     try {
-        const res = await login(values);
-        // store.setUserInfo(res);
-        router.push({ path: '/home/personal' });
+        const res: any = await login(values);
+        await store.setUserInfo(res.userInfo);
+        localStorage.setItem('token', res.token);
+        router.replace('/system-management');
     } catch (error) {
         console.log(error);
     }

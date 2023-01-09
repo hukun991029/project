@@ -1,14 +1,23 @@
 <!--
  * @Author: your name
  * @Date: 2022-04-07 09:15:53
- * @LastEditTime: 2023-01-08 01:05:50
+ * @LastEditTime: 2023-01-09 20:37:15
  * @LastEditors: Ikun
  * @Description: 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
- * @FilePath: /code/project/src/App.vue
+ * @FilePath: \CODE\project\src\App.vue
 -->
-<script setup lang="ts"></script>
+<script setup lang="ts">
+import zhCN from 'ant-design-vue/es/locale/zh_CN';
+import dayjs from 'dayjs';
+import 'dayjs/locale/zh-cn';
+dayjs.locale('zh-cn');
+</script>
 <template>
-    <div><router-view></router-view></div>
+    <div>
+        <a-config-provider :locale="zhCN">
+            <router-view></router-view>
+        </a-config-provider>
+    </div>
 </template>
 
 <style></style>

@@ -2,13 +2,14 @@
  * @Author: hukun 1228836483@qq.com
  * @Date: 2022-07-31 01:24:09
  * @LastEditors: Ikun
- * @LastEditTime: 2023-01-08 12:23:02
- * @FilePath: /code/project/src/utils/axios.ts
+ * @LastEditTime: 2023-01-09 21:26:31
+ * @FilePath: \CODE\project\src\utils\axios.ts
  * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
  */
 import axios from 'axios';
 import config from '../config/index';
 import { message } from 'ant-design-vue';
+import { useRouter } from 'vue-router';
 const CODE = {
     PARAMS_ERROR: '请求参数错误', // 参数错误
     USER_VALID_ERROR: '账号或密码错误', // 用户账号或密码错误
@@ -16,15 +17,15 @@ const CODE = {
     REQUEST_ERROR: '网络错误', // 请求错误
     OTHER_ERROR: '其他错误' // 其他错误
 };
-
+const router = useRouter();
 const instance = axios.create({
     baseURL: config.baseUrl,
     timeout: 5000
 });
 instance.interceptors.request.use((req) => {
+    const token = localStorage.getItem('token');
     if (req.headers && !req.headers.Authorization) {
-        let userInfo = localStorage.getItem('userInfo');
-        req.headers.Authorization = userInfo ? 'Bearer ' + JSON.parse(userInfo).token : '';
+        req.headers.Authorization = token ? 'Bearer ' + token : '';
     }
     return req;
 });
@@ -37,6 +38,7 @@ instance.interceptors.response.use((res) => {
             message.error(msg || CODE.PARAMS_ERROR);
             return Promise.reject(msg || CODE.PARAMS_ERROR);
         case 401:
+            router.replace('/login');
             message.error(msg || CODE.USER_LOGIN_ERROR);
             return Promise.reject(msg || CODE.USER_LOGIN_ERROR);
         case 422:
