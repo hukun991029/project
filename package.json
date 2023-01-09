@@ -16,6 +16,7 @@
     "dayjs": "^1.11.7",
     "eslint-plugin-vue": "^8.6.0",
     "file-saver": "^2.0.5",
+    "lodash": "^4.17.21",
     "mitt": "^3.0.0",
     "nprogress": "^0.2.0",
     "pinia": "^2.0.13",

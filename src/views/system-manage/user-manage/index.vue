@@ -1,7 +1,8 @@
 <script lang="ts" setup>
 import { getUserData } from '@/api/system-manage/user-manage';
-import { log } from 'console';
 import { onMounted, ref, watch } from 'vue';
+import Dialog from './components/dialog/index.vue';
+import Search from './components/search/index.vue';
 const columns = [
     {
         title: '用户名',
@@ -46,8 +47,9 @@ const queryParams = ref({
     endTime: ''
 });
 const loading = ref<boolean>(false);
-const timeValue = ref([]);
+
 const tableData = ref([]);
+const dialogRef = ref();
 const getTableData = async () => {
     try {
         loading.value = true;
@@ -60,55 +62,24 @@ const getTableData = async () => {
     }
 };
 
-const timeChange = (val) => {
-    if (val) {
-        queryParams.value.startTime = val[0];
-        queryParams.value.endTime = val[1];
-    } else {
-        queryParams.value.startTime = queryParams.value.endTime = '';
-    }
+const createUser = () => {
+    dialogRef.value.showDialog();
 };
-const onFinish = () => {
+
+const refresh = (val) => {
+    queryParams.value = val;
     getTableData();
-};
-const onFinishFailed = (errorInfo: any) => {
-    console.log('Failed:', errorInfo);
 };
 onMounted(() => {
     getTableData();
 });
 </script>
 <template>
-    <a-card style="margin-bottom: 20px">
-        <a-form
-            layout="inline"
-            :model="queryParams"
-            @finish="onFinish"
-            @finishFailed="onFinishFailed"
-        >
-            <a-form-item label="用户名" name="username">
-                <a-input v-model:value="queryParams.username" placeholder="请输入用户名" />
-            </a-form-item>
-            <a-form-item label="用户Id" name="userId">
-                <a-input v-model:value="queryParams.userId" placeholder="请输入用户Id" />
-            </a-form-item>
-            <a-form-item label="时间筛选" name="timeValue">
-                <a-range-picker
-                    v-model:value="timeValue"
-                    format="YYYY-MM-DD"
-                    valueFormat="YYYY-MM-DD"
-                    @change="timeChange"
-                />
-            </a-form-item>
-            <a-form-item>
-                <a-button type="primary" html-type="submit">查询</a-button>
-                <a-button style="margin-left: 10px">重置</a-button>
-            </a-form-item>
-        </a-form>
-    </a-card>
+    <Search :queryParams="queryParams" @refresh="refresh"></Search>
     <a-card>
-        <a-button type="primary" style="margin-bottom: 20px">创建用户</a-button>
+        <a-button type="primary" style="margin-bottom: 20px" @click="createUser">创建用户</a-button>
         <a-table :columns="columns" :data-source="tableData" :loading="loading"></a-table>
+        <Dialog ref="dialogRef"></Dialog>>
     </a-card>
 </template>
 <style lang="scss" scoped></style>
