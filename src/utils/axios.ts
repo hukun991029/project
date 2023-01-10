@@ -2,7 +2,7 @@
  * @Author: hukun 1228836483@qq.com
  * @Date: 2022-07-31 01:24:09
  * @LastEditors: Ikun
- * @LastEditTime: 2023-01-09 21:26:31
+ * @LastEditTime: 2023-01-10 15:08:00
  * @FilePath: \CODE\project\src\utils\axios.ts
  * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
  */
@@ -44,6 +44,9 @@ instance.interceptors.response.use((res) => {
         case 422:
             message.error(msg || CODE.USER_VALID_ERROR);
             return Promise.reject(msg || CODE.USER_VALID_ERROR);
+        default:
+            message.error(msg);
+            return Promise.reject(msg);
     }
 });
 
