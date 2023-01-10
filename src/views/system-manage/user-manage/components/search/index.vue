@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { ref, watch } from 'vue';
+import { ref } from 'vue';
 import _ from 'lodash';
 const timeValue = ref([]);
 const props = defineProps({
@@ -9,8 +9,6 @@ const props = defineProps({
         required: true
     }
 });
-
-console.log(props.queryParams);
 const emits = defineEmits(['refresh']);
 const form = ref(_.cloneDeep(props.queryParams));
 
@@ -25,13 +23,16 @@ const timeChange = (val) => {
 const handleSubmit = () => {
     emits('refresh', form.value);
 };
-const reset = () => [];
-// const onFinish = () => {
-//     console.log(form.value);
-// };
-// const onFinishFailed = (errorInfo: any) => {
-//     console.log('Failed:', errorInfo);
-// };
+const reset = () => {
+    for (const key in form.value) {
+        if (Object.hasOwn(form.value, key)) {
+            if (!['pageNum', 'pageSize'].includes(key)) {
+                form.value[key] = '';
+            }
+        }
+    }
+    emits('refresh', form.value);
+};
 </script>
 <template>
     <a-card style="margin-bottom: 20px">

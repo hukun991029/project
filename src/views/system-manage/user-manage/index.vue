@@ -1,6 +1,6 @@
 <script lang="ts" setup>
-import { getUserData, addUser } from '@/api/system-manage/user-manage';
-import { onMounted, ref, nextTick } from 'vue';
+import { getUserData, delUser } from '@/api/system-manage/user-manage';
+import { computed, onMounted, ref } from 'vue';
 import Dialog from './components/dialog/index.vue';
 import Search from './components/search/index.vue';
 import dayjs from 'dayjs';
@@ -78,10 +78,29 @@ const isEdit = ref<boolean>(false);
 const loading = ref<boolean>(false);
 const tableData = ref<any>([]);
 const dialogRef = ref();
+const total = ref<number>();
+const tagColor = {
+    province: 'orange',
+    city: 'blue',
+    area: 'cyan'
+};
+
+const pagination = computed(() => ({
+    total,
+    current: queryParams.value.pageNum,
+    pageSize: queryParams.value.pageSize,
+    howQuickJumper: true,
+    showSizeChanger: true,
+    showLessItems: true,
+    showTotal: (total) => `共 ${total} 条`
+}));
+
 const getTableData = async () => {
     try {
         loading.value = true;
-        tableData.value = await getUserData(queryParams.value);
+        const res: any = await getUserData(queryParams.value);
+        tableData.value = res.rows;
+        total.value = res.total;
     } catch (error) {
         console.log(error);
     } finally {
@@ -106,7 +125,7 @@ const refresh = (val) => {
     getTableData();
 };
 
-const edit = (record) => {
+const handelEdit = (record) => {
     const { username, email, phone, address } = record;
     const { province, city, area } = address;
     form.value = {
@@ -118,7 +137,13 @@ const edit = (record) => {
     isEdit.value = true;
     dialogRef.value.showDialog();
 };
-
+const handelDel = async (record) => {
+    const params = {
+        username: record.username
+    };
+    await delUser(params);
+    getTableData();
+};
 onMounted(() => {
     getTableData();
 });
@@ -127,21 +152,35 @@ onMounted(() => {
     <Search :queryParams="queryParams" @refresh="refresh"></Search>
     <a-card>
         <a-button type="primary" style="margin-bottom: 20px" @click="createUser">创建用户</a-button>
-        <a-table :columns="columns" :data-source="tableData" :loading="loading" bordered>
+        <a-table
+            class="ant-table-striped"
+            :columns="columns"
+            :data-source="tableData"
+            :loading="loading"
+            :pagination="pagination"
+            bordered
+            :row-class-name="(_record, index) => (index % 2 === 1 ? 'table-striped' : null)"
+        >
             <template #bodyCell="{ column, record }">
                 <template v-if="column.key === 'address'">
-                    <a-tag v-for="(value, key) in record.address" :key="key">{{ value }} </a-tag>
-                    <!-- <span>
-                        {{ record.address.province }}-{{ record.address.city }}-
-                        {{ record.address.area }}</span
-                    > -->
+                    <template v-for="(value, key, index) in record.address" :key="key">
+                        <a-tag v-if="index < 3 && key !== '_id'" :color="tagColor[key]"
+                            >{{ value }}
+                        </a-tag>
+                    </template>
                 </template>
                 <template v-if="column.key === 'edit'">
-                    <a @click="edit(record)">编辑</a>
+                    <a @click="handelEdit(record)">编辑</a>
+                    <a-divider type="vertical" />
+                    <a @click="handelDel(record)">删除</a>
                 </template>
             </template>
         </a-table>
         <Dialog ref="dialogRef" :form="form" @refresh="getTableData" :isEdit="isEdit"></Dialog>
     </a-card>
 </template>
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+.ant-table-striped :deep(.table-striped) td {
+    background-color: #fafafa;
+}
+</style>

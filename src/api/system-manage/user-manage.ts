@@ -20,3 +20,10 @@ export const updateUser = (data) => {
         data
     });
 };
+export const delUser = (data) => {
+    return request({
+        url: '/user/del',
+        method: 'GET',
+        data
+    });
+};
