@@ -4,6 +4,7 @@ import { computed, onMounted, ref } from 'vue';
 import Dialog from './components/dialog/index.vue';
 import Search from './components/search/index.vue';
 import dayjs from 'dayjs';
+import { message } from 'ant-design-vue';
 import type { FormOption } from './type';
 const columns = [
     {
@@ -139,9 +140,10 @@ const handelEdit = (record) => {
 };
 const handelDel = async (record) => {
     const params = {
-        username: record.username
+        userId: record.userId
     };
     await delUser(params);
+    message.success('删除成功');
     getTableData();
 };
 onMounted(() => {

@@ -11,8 +11,8 @@ console.log(route.path);
 console.log(defaultRoute);
 
 const state = reactive({
-    rootSubmenuKeys: ['1', '2', '3', '4', '5'],
-    openKeys: ['personal-info'],
+    rootSubmenuKeys: [],
+    openKeys: ['system-management'],
     selectedKeys: [route.path],
     preOpenKeys: []
 });
@@ -64,6 +64,7 @@ watch(
                     <span> {{ item.meta.title }}</span>
                 </template>
                 <a-menu-item v-for="ele in item.children" :key="ele.path">
+                    <Icon :name="ele.meta.icon"></Icon>
                     {{ ele.meta.title }}
                 </a-menu-item>
             </a-sub-menu>

@@ -1,13 +1,15 @@
 <script lang="ts" setup>
 import { useRouter } from 'vue-router';
 import userStore from '@/store/store';
-const router = useRouter();
 const store = userStore();
+const username = store?.userInfo?.username;
+const router = useRouter();
+
 const menuClick = ({ key }) => {
     if (key === 'loginOut') {
         store.clearUserInfo();
         localStorage.clear();
-        router.push('/login');
+        router.replace('/login');
     }
 };
 </script>
@@ -15,7 +17,7 @@ const menuClick = ({ key }) => {
     <a-dropdown>
         <div class="user-info-wrap icon-wrap" @click.prevent>
             <img class="user-img" src="../../assets/Image/user.png" alt="" />
-            <span class="link-title">Serati Ma</span>
+            <span class="link-title">{{ username }}</span>
         </div>
         <template #overlay>
             <a-menu @click="menuClick">

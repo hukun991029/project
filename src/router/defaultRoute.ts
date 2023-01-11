@@ -6,7 +6,7 @@ const defaultRoute = [
         redirect: '/system-management/user-management',
         meta: {
             title: '系统管理',
-            icon: 'QqOutlined'
+            icon: 'SettingOutlined'
         },
         children: [
             {
@@ -14,7 +14,15 @@ const defaultRoute = [
                 component: () => import('../views/system-manage/user-manage/index.vue'),
                 meta: {
                     title: '用户管理',
-                    icon: 'QqOutlined'
+                    icon: 'UserOutlined'
+                }
+            },
+            {
+                path: '/dept-management/user-management',
+                component: () => import('../views/system-manage/dept-manage/index.vue'),
+                meta: {
+                    title: '部门管理',
+                    icon: 'DeploymentUnitOutlined'
                 }
             }
         ]

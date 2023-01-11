@@ -79,6 +79,7 @@ const showDialog = () => {
 };
 
 const closeDialog = () => {
+    resetFields();
     dialogVisible.value = false;
 };
 const confirm = () => {
@@ -143,14 +144,14 @@ defineExpose({
                     showCount
                     :disabled="props.isEdit"
                     autocomplete="off"
-                    @blur="validate('username', { trigger: 'blur' }).catch(() => {})"
+                    @blur="validate('username')"
                 ></a-input>
             </a-form-item>
             <a-form-item label="邮箱" v-bind="validateInfos.email">
                 <a-input
                     v-model:value="_form.email"
                     placeholder="请输入用户邮箱"
-                    @blur="validate('email', { trigger: 'blur' }).catch(() => {})"
+                    @blur="validate('email')"
                 ></a-input>
             </a-form-item>
             <a-form-item label="电话号码" v-bind="validateInfos.phone">
@@ -158,7 +159,7 @@ defineExpose({
                     v-model:value="_form.phone"
                     placeholder="请输入电话号码"
                     autocomplete="off"
-                    @blur="validate('phone', { trigger: 'blur' }).catch(() => {})"
+                    @blur="validate('phone')"
                 ></a-input>
             </a-form-item>
             <a-form-item label="用户密码" v-if="!props.isEdit" v-bind="validateInfos.password">
@@ -167,16 +168,17 @@ defineExpose({
                     placeholder="请输入用户密码"
                     password
                     autocomplete="off"
-                    @blur="validate('password', { trigger: 'blur' }).catch(() => {})"
+                    @blur="validate('password')"
                 ></a-input-password>
             </a-form-item>
             <a-form-item label="用户地址" v-bind="validateInfos.address">
                 <a-cascader
                     v-model:value="_form.address"
                     :options="place"
+                    expand-trigger="hover"
                     placeholder="请选择用户地址"
                     change-on-select
-                    @change="validate('address', { trigger: 'change' }).catch(() => {})"
+                    @change="validate('address')"
                 />
             </a-form-item>
         </a-form>
