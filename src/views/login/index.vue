@@ -1,9 +1,9 @@
 <script lang="ts" setup>
-import { login } from '@/api/login';
-import userStore from '@/store/store';
-import { reactive } from 'vue';
-import { useRouter } from 'vue-router';
-import { UserOutlined, LockOutlined } from '@ant-design/icons-vue';
+import { login } from '@/api/login'
+import userStore from '@/store/store'
+import { reactive } from 'vue'
+import { useRouter } from 'vue-router'
+import { UserOutlined, LockOutlined } from '@ant-design/icons-vue'
 interface FormState {
     username: string;
     password: string;
@@ -13,19 +13,19 @@ const formState = reactive<FormState>({
     username: '',
     password: '',
     checked: false
-});
-const store = userStore();
-const router = useRouter();
+})
+const store = userStore()
+const router = useRouter()
 const onFinish = async (values: any) => {
     try {
-        const res: any = await login(values);
-        await store.setUserInfo(res.userInfo);
-        localStorage.setItem('token', res.token);
-        router.replace('/system-management');
+        const res: any = await login(values)
+        await store.setUserInfo(res.userInfo)
+        localStorage.setItem('token', res.token)
+        router.replace('/system-management')
     } catch (error) {
-        console.log(error);
+        console.log(error)
     }
-};
+}
 </script>
 <template>
     <div class="login-wrap">

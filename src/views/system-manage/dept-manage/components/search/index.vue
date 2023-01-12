@@ -1,6 +1,6 @@
 <script lang="ts" setup>
-import { ref } from 'vue';
-const deptName = ref('');
+import { ref } from 'vue'
+const deptName = ref('')
 </script>
 <template>
     <a-card style="margin-bottom: 10px">

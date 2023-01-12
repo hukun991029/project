@@ -1,17 +1,17 @@
 <script lang="ts" setup>
-import { useRouter } from 'vue-router';
-import userStore from '@/store/store';
-const store = userStore();
-const username = store?.userInfo?.username;
-const router = useRouter();
+import { useRouter } from 'vue-router'
+import userStore from '@/store/store'
+const store = userStore()
+const username = store?.userInfo?.username
+const router = useRouter()
 
 const menuClick = ({ key }) => {
     if (key === 'loginOut') {
-        store.clearUserInfo();
-        localStorage.clear();
-        router.replace('/login');
+        store.clearUserInfo()
+        localStorage.clear()
+        router.replace('/login')
     }
-};
+}
 </script>
 <template>
     <a-dropdown>

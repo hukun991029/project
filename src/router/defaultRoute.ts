@@ -27,5 +27,5 @@ const defaultRoute = [
             }
         ]
     }
-];
-export default defaultRoute;
+]
+export default defaultRoute

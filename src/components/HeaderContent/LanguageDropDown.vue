@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { reactive } from 'vue';
+import { reactive } from 'vue'
 const menuList = reactive([
     {
         key: 'BD',
@@ -17,10 +17,10 @@ const menuList = reactive([
         key: 'Hk',
         language: '繁体中文'
     }
-]);
+])
 const menuClick = ({ key }) => {
-    console.log(key);
-};
+    console.log(key)
+}
 </script>
 <template>
     <a-dropdown>

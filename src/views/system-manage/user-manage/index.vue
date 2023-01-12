@@ -1,11 +1,12 @@
 <script lang="ts" setup>
-import { getUserData, delUser } from '@/api/system-manage/user-manage';
-import { computed, onMounted, ref } from 'vue';
-import Dialog from './components/dialog/index.vue';
-import Search from './components/search/index.vue';
-import dayjs from 'dayjs';
-import { message } from 'ant-design-vue';
-import type { FormOption } from './type';
+import { getUserData, delUser } from '@/api/system-manage/user-manage'
+import { computed, onMounted, ref } from 'vue'
+import Dialog from './components/dialog/index.vue'
+import Search from './components/search/index.vue'
+import dayjs from 'dayjs'
+import { message } from 'ant-design-vue'
+import type { FormOption } from './type'
+
 const columns = [
     {
         title: '用户名',
@@ -57,7 +58,7 @@ const columns = [
         key: 'edit',
         align: 'center'
     }
-];
+]
 const queryParams = ref({
     userId: '',
     username: '',
@@ -65,7 +66,7 @@ const queryParams = ref({
     endTime: '',
     pageNum: 1,
     pageSize: 10
-});
+})
 
 const form = ref<FormOption>({
     username: '',
@@ -73,18 +74,18 @@ const form = ref<FormOption>({
     phone: '',
     password: '',
     address: []
-});
+})
 
-const isEdit = ref<boolean>(false);
-const loading = ref<boolean>(false);
-const tableData = ref<any>([]);
-const dialogRef = ref();
-const total = ref<number>();
+const isEdit = ref<boolean>(false)
+const loading = ref<boolean>(false)
+const tableData = ref<any>([])
+const dialogRef = ref()
+const total = ref<number>()
 const tagColor = {
     province: 'orange',
     city: 'blue',
     area: 'cyan'
-};
+}
 
 const pagination = computed(() => ({
     total,
@@ -94,20 +95,20 @@ const pagination = computed(() => ({
     showSizeChanger: true,
     showLessItems: true,
     showTotal: (total) => `共 ${total} 条`
-}));
+}))
 
 const getTableData = async () => {
     try {
-        loading.value = true;
-        const res: any = await getUserData(queryParams.value);
-        tableData.value = res.rows;
-        total.value = res.total;
+        loading.value = true
+        const res: any = await getUserData(queryParams.value)
+        tableData.value = res.rows
+        total.value = res.total
     } catch (error) {
-        console.log(error);
+        console.log(error)
     } finally {
-        loading.value = false;
+        loading.value = false
     }
-};
+}
 
 const createUser = () => {
     Object.assign(form.value, {
@@ -116,39 +117,39 @@ const createUser = () => {
         phone: '',
         password: '',
         address: []
-    });
-    isEdit.value = false;
-    dialogRef.value.showDialog();
-};
+    })
+    isEdit.value = false
+    dialogRef.value.showDialog()
+}
 
 const refresh = (val) => {
-    queryParams.value = val;
-    getTableData();
-};
+    queryParams.value = val
+    getTableData()
+}
 
 const handelEdit = (record) => {
-    const { username, email, phone, address } = record;
-    const { province, city, area } = address;
+    const { username, email, phone, address } = record
+    const { province, city, area } = address
     form.value = {
         username,
         email,
         phone,
         address: [province, city, area]
-    };
-    isEdit.value = true;
-    dialogRef.value.showDialog();
-};
+    }
+    isEdit.value = true
+    dialogRef.value.showDialog()
+}
 const handelDel = async (record) => {
     const params = {
         userId: record.userId
-    };
-    await delUser(params);
-    message.success('删除成功');
-    getTableData();
-};
+    }
+    await delUser(params)
+    message.success('删除成功')
+    getTableData()
+}
 onMounted(() => {
-    getTableData();
-});
+    getTableData()
+})
 </script>
 <template>
     <Search :queryParams="queryParams" @refresh="refresh"></Search>
@@ -166,8 +167,8 @@ onMounted(() => {
             <template #bodyCell="{ column, record }">
                 <template v-if="column.key === 'address'">
                     <template v-for="(value, key, index) in record.address" :key="key">
-                        <a-tag v-if="index < 3 && key !== '_id'" :color="tagColor[key]"
-                            >{{ value }}
+                        <a-tag v-if="index < 3 && key !== '_id'" :color="tagColor[key]">
+                            {{ value }}
                         </a-tag>
                     </template>
                 </template>

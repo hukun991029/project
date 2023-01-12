@@ -1,33 +1,33 @@
 <script lang="ts" setup>
-import { ref } from 'vue';
-import _ from 'lodash';
-const timeValue = ref([]);
+import { ref } from 'vue'
+import _ from 'lodash'
+const timeValue = ref([])
 const props = defineProps({
     queryParams: {
         type: Object,
         default: () => {},
         required: true
     }
-});
-const emits = defineEmits(['refresh']);
-const form = ref(_.cloneDeep(props.queryParams));
-const formRef = ref();
+})
+const emits = defineEmits(['refresh'])
+const form = ref(_.cloneDeep(props.queryParams))
+const formRef = ref()
 const timeChange = (val) => {
     if (val) {
-        form.value.startTime = val[0];
-        form.value.endTime = val[1];
+        form.value.startTime = val[0]
+        form.value.endTime = val[1]
     } else {
-        form.value.startTime = form.value.endTime = '';
+        form.value.startTime = form.value.endTime = ''
     }
-};
+}
 const handleSubmit = () => {
-    emits('refresh', form.value);
-};
+    emits('refresh', form.value)
+}
 const reset = () => {
-    timeValue.value = [];
-    formRef.value.resetFields();
-    emits('refresh', form.value);
-};
+    timeValue.value = []
+    formRef.value.resetFields()
+    emits('refresh', form.value)
+}
 </script>
 <template>
     <a-card style="margin-bottom: 20px">

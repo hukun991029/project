@@ -14509,4 +14509,4 @@ export default [
             }
         ]
     }
-];
+]
