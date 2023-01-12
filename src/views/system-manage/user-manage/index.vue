@@ -183,7 +183,7 @@ onMounted(() => {
     </a-card>
 </template>
 <style lang="scss" scoped>
-.ant-table-striped :deep(.table-striped) td {
+.ant-table-striped ::v-deep(.table-striped) td {
     background-color: #fafafa;
 }
 </style>

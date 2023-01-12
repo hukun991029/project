@@ -48,9 +48,8 @@ const menuClick = ({ key }) => {
         background: #252a3d;
     }
 }
-.ant-dropdown-menu-item {
-    ::v-deep {
-        font-size: 14px;
-    }
+
+::v-deep(.ant-dropdown-menu-item) {
+    font-size: 14px;
 }
 </style>

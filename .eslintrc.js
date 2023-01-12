@@ -19,6 +19,7 @@ module.exports = {
     plugins: ['vue', '@typescript-eslint'],
     rules: {
         'vue/no-mutating-props': 'off',
+        'vue/multi-word-component-names': 'off',
         'vue/require-valid-default-prop': 'off',
         'no-var': 'error', // 禁止使用 var
         '@typescript-eslint/consistent-type-definitions': ['error', 'interface'], // 优先使用 interface 而不是 type
@@ -36,6 +37,9 @@ module.exports = {
         'no-dupe-args': 'error', //function不允许定义中的重复参数
         'no-nested-ternary': 'error', //禁止嵌套的三元表达式
         'no-duplicate-imports': 'error', //禁止重复模块导入
-        'no-console': process.env.NODE_ENV === 'production' ? 'error' : 'off'
+        'no-console': process.env.NODE_ENV === 'production' ? 'error' : 'off',
+        'no-empty-function': 'off',
+        '@typescript-eslint/no-empty-function': 'off',
+        'no-debugger': 'off'
     }
 }
