@@ -1,6 +1,5 @@
 <script lang="ts" setup>
-import { PropType, ref } from 'vue'
-import { FormInstance } from 'ant-design-vue'
+import { PropType, ref, watch } from 'vue'
 import _ from 'lodash'
 import { Options } from './type'
 const props = defineProps({
@@ -40,10 +39,11 @@ const formatForm = (arr) => {
     })
     return res
 }
-const formRef = ref<FormInstance>()
+const formRef = ref()
+console.log(props.options)
 
-let _form = ref(_.cloneDeep(props.options))
-_form.value = formatForm(_form.value)
+let _form = ref()
+_form.value = formatForm(_.cloneDeep(props.options))
 const handleConfirm = () => {
     emits('confirm', _form.value)
     resetFields()
@@ -54,8 +54,19 @@ const handleCancel = () => {
     emits('update:dialogVisible', false)
 }
 const resetFields = () => {
+    console.log(formRef.value)
     formRef.value && formRef.value.resetFields()
 }
+watch(
+    () => props.dialogVisible,
+    (newVal) => {
+        console.log(newVal)
+        _form.value = formatForm(_.cloneDeep(props.options))
+    }
+)
+defineExpose({
+    resetFields
+})
 </script>
 <template>
     <a-modal
@@ -64,7 +75,7 @@ const resetFields = () => {
         @cancel="handleCancel"
         v-bind="$attrs"
     >
-        <a-form ref="formRef" :rules="rules" :form="_form" autocomplete="off" v-bind="formOptions">
+        <a-form ref="formRef" :rules="rules" :model="_form" autocomplete="off" v-bind="formOptions">
             <a-form-item
                 v-for="item in options"
                 :key="item.prop"

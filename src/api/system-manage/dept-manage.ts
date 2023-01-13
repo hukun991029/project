@@ -35,3 +35,9 @@ export const delDept = (data) => {
         data
     })
 }
+export const getTreeList = () => {
+    return request({
+        url: '/dept/tree',
+        method: 'GET'
+    })
+}

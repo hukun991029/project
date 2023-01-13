@@ -6,19 +6,20 @@ import Search from './components/search/index.vue'
 import dayjs from 'dayjs'
 import { message } from 'ant-design-vue'
 import type { FormOption } from './type'
-
 const columns = [
     {
         title: '用户名',
         dataIndex: 'username',
         key: 'username',
-        align: 'center'
+        align: 'center',
+        fixed: 'left'
     },
     {
         title: '用户ID',
         dataIndex: 'userId',
         key: 'userId',
-        align: 'center'
+        align: 'center',
+        fixed: 'left'
     },
     {
         title: '邮箱',
@@ -30,33 +31,46 @@ const columns = [
         title: '电话号码',
         dataIndex: 'phone',
         key: 'phone',
-        align: 'center'
+        align: 'center',
+        width: 250
     },
     {
         title: '用户地址',
         dataIndex: 'address',
         key: 'address',
-        align: 'center'
+        align: 'center',
+        width: 250
+    },
+    {
+        title: '部门名称',
+        dataIndex: 'deptName',
+        key: 'deptName',
+        align: 'center',
+        width: 250
     },
     {
         title: '创建时间',
         dataIndex: 'createTime',
         key: 'createTime',
         align: 'center',
-        customRender: ({ text }) => dayjs(text).format('YYYY-MM-DD HH:mm:ss')
+        customRender: ({ text }) => dayjs(text).format('YYYY-MM-DD HH:mm:ss'),
+        width: 250
     },
     {
         title: '更新时间',
         dataIndex: 'updateTime',
         key: 'updateTime',
         align: 'center',
-        customRender: ({ text }) => dayjs(text).format('YYYY-MM-DD HH:mm:ss')
+        customRender: ({ text }) => dayjs(text).format('YYYY-MM-DD HH:mm:ss'),
+        width: 250
     },
     {
         title: '操作',
         dataIndex: 'edit',
         key: 'edit',
-        align: 'center'
+        align: 'center',
+        fixed: 'right',
+        width: 150
     }
 ]
 const queryParams = ref({
@@ -73,7 +87,8 @@ const form = ref<FormOption>({
     email: '',
     phone: '',
     password: '',
-    address: []
+    address: [],
+    deptList: []
 })
 
 const isEdit = ref<boolean>(false)
@@ -116,7 +131,8 @@ const createUser = () => {
         email: '',
         phone: '',
         password: '',
-        address: []
+        address: [],
+        deptList: []
     })
     isEdit.value = false
     dialogRef.value.showDialog()
@@ -128,13 +144,14 @@ const refresh = (val) => {
 }
 
 const handelEdit = (record) => {
-    const { username, email, phone, address } = record
+    const { username, email, phone, address, deptList } = record
     const { province, city, area } = address
     form.value = {
         username,
         email,
         phone,
-        address: [province, city, area]
+        address: [province, city, area],
+        deptList
     }
     isEdit.value = true
     dialogRef.value.showDialog()
@@ -145,6 +162,12 @@ const handelDel = async (record) => {
     }
     await delUser(params)
     message.success('删除成功')
+    getTableData()
+}
+const pageChange = (pagination) => {
+    const { current, pageSize } = pagination
+    queryParams.value.pageNum = current
+    queryParams.value.pageSize = pageSize
     getTableData()
 }
 onMounted(() => {
@@ -163,6 +186,8 @@ onMounted(() => {
             :pagination="pagination"
             bordered
             :row-class-name="(_record, index) => (index % 2 === 1 ? 'table-striped' : null)"
+            :scroll="{ x: 1800, y: 1000, scrollToFirstRowOnChange: true }"
+            @change="pageChange"
         >
             <template #bodyCell="{ column, record }">
                 <template v-if="column.key === 'address'">

@@ -27,3 +27,10 @@ export const delUser = (data) => {
         data
     })
 }
+
+export const getDeptList = () => {
+    return request({
+        url: '/dept/tree',
+        method: 'GET'
+    })
+}

@@ -18,5 +18,5 @@ export interface Options {
         | 'time-picker'
 
     placeholder: string
-    attrs: object
+    attrs: any
 }

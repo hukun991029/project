@@ -18,11 +18,19 @@ const defaultRoute = [
                 }
             },
             {
-                path: '/dept-management/user-management',
+                path: '/system-management/dept-management',
                 component: () => import('../views/system-manage/dept-manage/index.vue'),
                 meta: {
                     title: '部门管理',
                     icon: 'DeploymentUnitOutlined'
+                }
+            },
+            {
+                path: '/system-management/role-management',
+                component: () => import('../views/system-manage/role-manage/index.vue'),
+                meta: {
+                    title: '角色管理',
+                    icon: 'TeamOutlined'
                 }
             }
         ]

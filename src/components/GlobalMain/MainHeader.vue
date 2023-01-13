@@ -8,7 +8,7 @@ console.log()
     <a-layout-header class="header">
         <div class="header-left-wrap">
             <img class="logo" src="../../assets/Image/logo.svg" alt="" />
-            <h1>Ant Design Pro</h1>
+            <h1>系统管理</h1>
         </div>
         <a-space>
             <span class="icon-wrap"><i class="iconfont icon-suosou"></i></span>
@@ -21,7 +21,7 @@ console.log()
 </template>
 <style lang="scss" scoped>
 .header {
-    width: 100vw;
+    min-width: 1024px;
     padding: 0 16px;
     display: flex;
     justify-content: space-between;

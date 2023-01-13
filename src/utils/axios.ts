@@ -2,8 +2,8 @@
  * @Author: hukun 1228836483@qq.com
  * @Date: 2022-07-31 01:24:09
  * @LastEditors: Ikun
- * @LastEditTime: 2023-01-10 15:08:00
- * @FilePath: \CODE\project\src\utils\axios.ts
+ * @LastEditTime: 2023-01-14 00:18:33
+ * @FilePath: /code/project/src/utils/axios.ts
  * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
  */
 import axios from 'axios'
@@ -56,7 +56,6 @@ function request(options) {
         options.params = options.data
     }
     const mockFlag = options.mock || false
-
     if (config.ENV === 'production') {
         instance.defaults.baseURL = config.baseURL
     } else {

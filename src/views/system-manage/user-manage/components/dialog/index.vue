@@ -1,11 +1,11 @@
 <script lang="ts" setup>
-import { nextTick, ref, PropType } from 'vue'
+import { nextTick, ref, PropType, onMounted } from 'vue'
 import _ from 'lodash'
 import place from '@/utils/place'
-import { FormInstance, message, Form } from 'ant-design-vue'
+import { message, Form } from 'ant-design-vue'
 import type { FormOption } from '../../type'
-import { addUser, updateUser } from '@/api/system-manage/user-manage'
-import type { Rule } from 'ant-design-vue/es/form'
+import { addUser, updateUser, getDeptList } from '@/api/system-manage/user-manage'
+import { validPassword, validEmail, validPhone } from '@/utils/validRules'
 const props = defineProps({
     form: { type: Object as PropType<FormOption>, default: () => {}, required: true },
     isEdit: {
@@ -16,57 +16,18 @@ const props = defineProps({
 })
 const emits = defineEmits(['refresh'])
 const useForm = Form.useForm
-const validEmail = async (_rule: Rule, value: string) => {
-    if (!value) {
-        return Promise.reject('请输入邮箱')
-    } else {
-        const isValid = /^\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$/.test(value)
-        if (!isValid) {
-            return Promise.reject('邮箱格式不正确,请重新输入')
-        } else {
-            return Promise.resolve()
-        }
-    }
-}
-const validPhone = async (_rule: Rule, value: string) => {
-    if (!value) {
-        return Promise.reject('请输入电话号码')
-    } else {
-        const isValid =
-            /^(13[0-9]|14[5|7]|15[0|1|2|3|4|5|6|7|8|9]|18[0|1|2|3|5|6|7|8|9])\d{8}$/.test(value)
-        if (!isValid) {
-            return Promise.reject('电话号码格式不正确,请重新输入')
-        } else {
-            return Promise.resolve()
-        }
-    }
-}
-const validPassword = async (_rule: Rule, value: string) => {
-    if (!value) {
-        return Promise.reject('请输入密码')
-    } else {
-        if (value.length < 8 || value.length > 16) {
-            return Promise.reject(' 密码长度为8-16位')
-        } else {
-            const isValid = /^(?![0-9]+$)(?![a-zA-Z]+$)[0-9A-Za-z]{6,20}$/.test(value)
-            if (!isValid) {
-                return Promise.reject('密码格式不正确,密码需要包含数字和英文,请重新输入')
-            } else {
-                return Promise.resolve()
-            }
-        }
-    }
-}
 const rules = {
     username: [{ required: true, trigger: 'blur', message: '请输入用户名' }],
     email: [{ required: true, validator: validEmail, trigger: 'blur' }],
     phone: [{ required: true, validator: validPhone, trigger: 'blur' }],
     password: [{ required: true, validator: validPassword, trigger: 'blur' }],
-    address: [{ required: true, trigger: 'change', message: '请选择用户地址' }]
+    address: [{ required: true, trigger: 'change', message: '请选择用户地址' }],
+    deptList: [{ required: true, trigger: 'change', message: '请选择部门' }]
 }
-const formRef = ref<FormInstance>()
+const formRef = ref()
 const dialogVisible = ref<boolean>(false)
 const _form = ref<any>({})
+const deptList = ref([])
 const { resetFields, validate, validateInfos } = useForm(_form, rules)
 const showDialog = () => {
     nextTick(() => {
@@ -83,39 +44,43 @@ const closeDialog = () => {
 const confirm = () => {
     validate().then(async () => {
         const [province, city, area] = _form.value.address
-        const { username, password, email, phone } = _form.value
+        const { username, password, email, phone, deptList } = _form.value
         const params = {
             username,
             email,
             phone,
-            address: { province, city, area }
+            address: { province, city, area },
+            deptList
         }
-        if (props.isEdit) {
-            try {
+        try {
+            if (props.isEdit) {
                 await updateUser(params)
                 message.success('编辑成功')
-            } catch (error) {
-                console.log(error)
-            }
-        } else {
-            try {
+            } else {
                 Object.assign(params, {
                     password
                 })
                 await addUser(params)
                 message.success('创建成功')
-            } catch (error) {
-                console.log(error)
             }
+        } catch (error) {
+            console.log(error)
         }
         emits('refresh')
         closeDialog()
     })
 }
+
+const getDeptData = async () => {
+    const res: any = await getDeptList()
+    deptList.value = res
+}
 const cancel = () => {
     closeDialog()
 }
-
+onMounted(() => {
+    getDeptData()
+})
 defineExpose({
     showDialog
 })
@@ -175,6 +140,17 @@ defineExpose({
                     :options="place"
                     expand-trigger="hover"
                     placeholder="请选择用户地址"
+                    change-on-select
+                    @change="validate('address')"
+                />
+            </a-form-item>
+            <a-form-item label="部门" v-bind="validateInfos.deptList">
+                <a-cascader
+                    v-model:value="_form.deptList"
+                    :options="deptList"
+                    :field-names="{ label: 'deptName', value: '_id', children: 'children' }"
+                    expand-trigger="hover"
+                    placeholder="请选择部门"
                     change-on-select
                     @change="validate('address')"
                 />
