@@ -1,22 +1,26 @@
 /*
  * @Author: your name
  * @Date: 2022-04-07 09:15:53
- * @LastEditTime: 2023-02-06 14:12:55
+ * @LastEditTime: 2023-02-06 14:50:05
  * @LastEditors: Ikun
  * @Description: 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
  * @FilePath: /code/project/vite.config.ts
  */
 import { defineConfig, loadEnv } from 'vite'
+import type { UserConfig } from 'vite'
 import AutoImport from 'unplugin-auto-import/vite'
 import vue from '@vitejs/plugin-vue'
 import path from 'path'
 // import Components from 'unplugin-vue-components/vite'
 import { ElementPlusResolver } from 'unplugin-vue-components/resolvers'
-
+import { viteMockServe } from 'vite-plugin-mock'
 // https://vitejs.dev/config/
-export default defineConfig(({ command, mode }) => {
-    // const env = loadEnv(mode, process.cwd(), '')
+export default defineConfig(({ command, mode }): UserConfig => {
+    const env = loadEnv(mode, process.cwd(), 'VITE_')
     return {
+        define: {
+            __APP_ENV__: env.VITE_APP_BASE_URL
+        },
         plugins: [
             vue(),
             AutoImport({
@@ -24,10 +28,12 @@ export default defineConfig(({ command, mode }) => {
                 resolvers: [ElementPlusResolver()],
                 dirs: ['./composables'],
                 vueTemplate: true
+            }),
+            viteMockServe({
+                // default
+                mockPath: 'mock',
+                localEnabled: command === 'serve'
             })
-            // Components({
-            //     resolvers: [ElementPlusResolver()]
-            // })
         ],
         resolve: {
             alias: {
@@ -45,7 +51,7 @@ export default defineConfig(({ command, mode }) => {
             proxy: {
                 // with options
                 '/api': {
-                    target: 'http://localhost:3000/api',
+                    target: env.VITE_APP_BASE_URL,
                     changeOrigin: true,
                     rewrite: (path) => path.replace(/^\/api/, '')
                 }
@@ -61,9 +67,11 @@ export default defineConfig(({ command, mode }) => {
             }
         },
         css: {
-            scopeBehaviour: 'local',
-            generateScopedName: '[name]__[local]___[hash:base64:5]',
-            localsConvention: 'dashes'
+            modules: {
+                scopeBehaviour: 'local',
+                generateScopedName: '[name]__[local]___[hash:base64:5]',
+                localsConvention: 'dashes'
+            }
         }
     }
 })

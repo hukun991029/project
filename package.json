@@ -21,9 +21,11 @@
     "file-saver": "^2.0.5",
     "lodash": "^4.17.21",
     "mitt": "^3.0.0",
+    "mockjs": "^1.1.0",
     "nprogress": "^0.2.0",
     "pinia": "^2.0.13",
     "sass": "^1.53.0",
+    "vite-plugin-mock": "^2.9.6",
     "vue": "^3.2.25",
     "vue-router": "^4.0.13",
     "xlsx": "^0.18.5"
