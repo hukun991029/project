@@ -1,8 +1,6 @@
 <script lang="ts" setup>
 const props = withDefaults(defineProps<{ isCollapse: boolean }>(), { isCollapse: false })
-const emit = defineEmits<{
-    (e: 'update:isCollapse', isCollapse: boolean): void;
-}>()
+const emit = defineEmits(['update:isCollapse'])
 const toggleCollapsed = (): void => {
     emit('update:isCollapse', !props.isCollapse)
 }

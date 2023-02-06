@@ -9,7 +9,8 @@ module.exports = {
     extends: [
         'eslint:recommended',
         'plugin:vue/vue3-essential',
-        'plugin:@typescript-eslint/recommended'
+        'plugin:@typescript-eslint/recommended',
+        './.eslintrc-auto-import.json'
     ],
     parserOptions: {
         ecmaVersion: 'latest',
@@ -40,6 +41,7 @@ module.exports = {
         'no-console': process.env.NODE_ENV === 'production' ? 'error' : 'off',
         'no-empty-function': 'off',
         '@typescript-eslint/no-empty-function': 'off',
-        'no-debugger': 'off'
+        'no-debugger': 'off',
+        'no-var-requires': 'off'
     }
 }
