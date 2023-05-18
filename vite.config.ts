@@ -1,7 +1,7 @@
 /*
  * @Author: IKun
  * @Date: 2022-04-07 09:15:53
- * @LastEditTime: 2023-05-18 11:49:48
+ * @LastEditTime: 2023-05-18 14:17:55
  * @LastEditors: Ikun
  * @Description: vite配置
  * @FilePath: \CODE\project\vite.config.ts

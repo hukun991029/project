@@ -10,7 +10,8 @@
     "eslint": "eslint index.ts",
     "lint": "eslint src",
     "fix": "eslint src --fix",
-    "prepare": "husky install"
+    "prepare": "husky install",
+    "commitlint":"commitlint --config commitlint.config.cjs -e -V"
   },
   "dependencies": {
     "@types/node": "^17.0.23",
@@ -24,6 +25,7 @@
     "file-saver": "^2.0.5",
     "lodash": "^4.17.21",
     "mitt": "^3.0.0",
+    "mockjs": "^1.1.0",
     "nprogress": "^0.2.0",
     "pinia": "^2.0.13",
     "pinia-plugin-persistedstate": "^3.1.0",
@@ -43,6 +45,7 @@
     "eslint-plugin-prettier": "^4.2.1",
     "husky": "^8.0.0",
     "prettier": "^2.8.2",
+    "terser": "^5.16.3",
     "typescript": "^4.6.3",
     "unplugin-auto-import": "^0.16.0",
     "vite": "^2.9.15",

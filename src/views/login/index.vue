@@ -1,13 +1,13 @@
 <script lang="ts" setup>
 import { login } from '@/api/login'
 import userStore from '@/store/store'
-import { reactive } from 'vue'
+// import { reactive } from 'vue'
 import { useRouter } from 'vue-router'
 import { UserOutlined, LockOutlined } from '@ant-design/icons-vue'
 interface FormState {
-    username: string;
-    password: string;
-    checked: boolean;
+    username: string
+    password: string
+    checked: boolean
 }
 const formState = reactive<FormState>({
     username: '',

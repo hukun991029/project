@@ -43,6 +43,7 @@ module.exports = {
         'no-duplicate-imports': 'off', //禁止重复模块导入
         'no-console': process.env.NODE_ENV === 'production' ? 'error' : 'off',
         'no-empty-function': 'off',
-        'no-debugger': 'off'
+        'no-debugger': 'off',
+        'no-prototype-builtins': 'off'
     }
 }
