@@ -47,3 +47,4 @@ module.exports = {
         'no-prototype-builtins': 'off'
     }
 }
+
