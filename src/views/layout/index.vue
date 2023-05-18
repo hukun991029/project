@@ -2,7 +2,7 @@
 import MainHeader from '@/components/GlobalMain/MainHeader.vue'
 import MainContent from '@/components/GlobalMain/MainContent.vue'
 import MainSlide from '@/components/GlobalMain/MainSlide.vue'
-import MainFooter from '@/components/GlobalMain/MainFooter.vue'
+// import MainFooter from '@/components/GlobalMain/MainFooter.vue'
 </script>
 <template>
     <div class="home">

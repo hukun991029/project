@@ -10,18 +10,13 @@
         "resolveJsonModule": true,
         "isolatedModules": true,
         "esModuleInterop": true,
-        "lib": [
-            "esnext",
-            "dom"
-        ],
+        "lib": ["esnext", "dom"],
         "noImplicitAny": false,
         "experimentalDecorators": true,
         "baseUrl": "./",
         "paths": {
-            "@/*": [
-                "src/*"
-            ]
-        },
+            "@/*": ["src/*"]
+        }
     },
     "include": [
         "src/**/*.ts",
@@ -29,6 +24,7 @@
         "src/**/*.tsx",
         "src/**/*.vue",
         "src/router/index.js",
-        "src/utils/canvas.ts"
-    ],
+        "src/utils/canvas.ts",
+        "./auto-imports.d.ts"
+    ]
 }

@@ -2,8 +2,8 @@
 import Search from './components/search/index.vue'
 import dayjs from 'dayjs'
 import Dialog from '@/components/dialog/index.vue'
-import type { Options } from '@/components/Dialog/type'
-import { onMounted, ref, computed } from 'vue'
+import type { Options } from '@/components/Form/type'
+import Form from '@/components/Form/index.vue'
 import {
     getAllUser,
     addDept,
@@ -13,7 +13,6 @@ import {
     delDept
 } from '@/api/system-manage/dept-manage'
 import { message } from 'ant-design-vue'
-
 const dialogVisible = ref<boolean>(false)
 const selectList = ref([])
 const dialogRef = ref()
@@ -229,9 +228,10 @@ onMounted(() => {
         ref="dialogRef"
         v-model:dialogVisible="dialogVisible"
         title="创建部门"
-        :options="options"
-        :formOptions="formOptions"
         @confirm="confirm"
-    ></Dialog>
+        destroyOnClose
+    >
+        <Form :options="options" :formOptions="formOptions"></Form>
+    </Dialog>
 </template>
 <style lang="scss" scoped></style>

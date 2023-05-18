@@ -1,8 +1,6 @@
 <script lang="ts" setup>
 import MenuDropDown from '../HeaderContent/MenuDropDown.vue'
 import LanguageDropDown from '../HeaderContent/LanguageDropDown.vue'
-
-console.log()
 </script>
 <template>
     <a-layout-header class="header">
