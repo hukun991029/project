@@ -2,7 +2,7 @@
  * @Author: hukun 1228836483@qq.com
  * @Date: 2022-07-31 01:24:09
  * @LastEditors: Ikun
- * @LastEditTime: 2023-05-17 16:18:54
+ * @LastEditTime: 2023-05-23 16:15:43
  * @FilePath: \CODE\project\src\utils\axios.ts
  * @Description: axios请求
  */
@@ -53,7 +53,7 @@ instance.interceptors.response.use((res) => {
 const request = (options) => {
     options.method = options.method || 'get'
     if (options.method.toLowerCase() === 'get') {
-        options.params = options.data
+        options.params = options.params || options.data
     }
     const mockFlag = options.mock || false
     if (config.ENV === 'production') {

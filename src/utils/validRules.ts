@@ -29,7 +29,7 @@ export const validPassword = async (_rule: Rule, value: string) => {
         return Promise.reject('请输入密码')
     } else {
         if (value.length < 8 || value.length > 16) {
-            return Promise.reject(' 密码长度为8-16位')
+            return Promise.reject('密码长度为8-16位')
         } else {
             const isValid = /^(?![0-9]+$)(?![a-zA-Z]+$)[0-9A-Za-z]{6,20}$/.test(value)
             if (!isValid) {

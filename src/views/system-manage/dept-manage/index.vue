@@ -22,6 +22,7 @@ const loading = ref<boolean>(false)
 const total = ref<number>(0)
 const isEdit = ref<boolean>(false)
 const id = ref()
+const formRef = ref()
 const columns = [
     {
         title: '部门名称',
@@ -135,30 +136,36 @@ const getUserList = async () => {
 const createDept = () => {
     isEdit.value = false
     options.value.forEach((item) => {
-        item.value = item.prop === 'deptName' ? '' : []
+        item.value = ['deptName', 'userId'].includes(item.prop) ? '' : []
     })
     options.value[0].attrs.options = treeData.value
     options.value[2].attrs.options = selectList.value
     dialogVisible.value = true
 }
-const confirm = async (val) => {
+const confirm = async () => {
     try {
+        const params = formRef.value.getFormValue()
         if (isEdit.value) {
-            const params = {
-                ...val,
+            const data = {
+                ...params,
                 _id: id.value
             }
-            await updateDept(params)
+            await updateDept(data)
             message.success('编辑')
         } else {
-            await addDept(val)
+            await addDept(params)
             message.success('创建成功')
         }
         getTableData()
         getTreeData()
     } catch (error) {
         console.log(error)
+    } finally {
+        dialogVisible.value = false
     }
+}
+const cancel = () => {
+    dialogVisible.value = false
 }
 const getTreeData = async () => {
     const res: any = await getTreeList()
@@ -229,9 +236,10 @@ onMounted(() => {
         v-model:dialogVisible="dialogVisible"
         title="创建部门"
         @confirm="confirm"
+        @cancel="cancel"
         destroyOnClose
     >
-        <Form :options="options" :formOptions="formOptions"></Form>
+        <Form ref="formRef" :options="options" :formOptions="formOptions"></Form>
     </Dialog>
 </template>
 <style lang="scss" scoped></style>
