@@ -1,12 +1,11 @@
 <script lang="ts" setup>
 import { nextTick, ref, PropType, onMounted } from 'vue'
-import _ from 'lodash'
+import { cloneDeep } from 'lodash'
 import place from '@/utils/place'
 import { message, Form } from 'ant-design-vue'
 import type { FormOption } from '../../type'
 import { addUser, updateUser, getDeptList } from '@/api/system-manage/user-manage'
 import { validPassword, validEmail, validPhone } from '@/utils/validRules'
-
 const props = defineProps({
     form: { type: Object as PropType<FormOption>, default: () => {}, required: true },
     isEdit: {
@@ -27,13 +26,13 @@ const rules = {
 }
 const formRef = ref()
 const dialogVisible = ref<boolean>(false)
-const _form = ref<any>({})
+const _form = ref<Record<string, string>>({})
 const deptList = ref([])
 const { resetFields, validate, validateInfos } = useForm(_form, rules)
 const showDialog = () => {
     nextTick(() => {
         dialogVisible.value = true
-        _form.value = _.cloneDeep(props.form)
+        _form.value = cloneDeep(props.form)
         resetFields()
     })
 }

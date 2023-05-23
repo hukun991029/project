@@ -2,8 +2,8 @@
 import Search from './components/search/index.vue'
 import dayjs from 'dayjs'
 import Dialog from '@/components/dialog/index.vue'
-import type { Options } from '@/components/Dialog/type'
-import { onMounted, ref, computed } from 'vue'
+import type { Options } from '@/components/Form/type'
+import Form from '@/components/Form/index.vue'
 import {
     getAllUser,
     addDept,
@@ -13,7 +13,6 @@ import {
     delDept
 } from '@/api/system-manage/dept-manage'
 import { message } from 'ant-design-vue'
-
 const dialogVisible = ref<boolean>(false)
 const selectList = ref([])
 const dialogRef = ref()
@@ -23,6 +22,7 @@ const loading = ref<boolean>(false)
 const total = ref<number>(0)
 const isEdit = ref<boolean>(false)
 const id = ref()
+const formRef = ref()
 const columns = [
     {
         title: '部门名称',
@@ -136,30 +136,36 @@ const getUserList = async () => {
 const createDept = () => {
     isEdit.value = false
     options.value.forEach((item) => {
-        item.value = item.prop === 'deptName' ? '' : []
+        item.value = ['deptName', 'userId'].includes(item.prop) ? '' : []
     })
     options.value[0].attrs.options = treeData.value
     options.value[2].attrs.options = selectList.value
     dialogVisible.value = true
 }
-const confirm = async (val) => {
+const confirm = async () => {
     try {
+        const params = formRef.value.getFormValue()
         if (isEdit.value) {
-            const params = {
-                ...val,
+            const data = {
+                ...params,
                 _id: id.value
             }
-            await updateDept(params)
+            await updateDept(data)
             message.success('编辑')
         } else {
-            await addDept(val)
+            await addDept(params)
             message.success('创建成功')
         }
         getTableData()
         getTreeData()
     } catch (error) {
         console.log(error)
+    } finally {
+        dialogVisible.value = false
     }
+}
+const cancel = () => {
+    dialogVisible.value = false
 }
 const getTreeData = async () => {
     const res: any = await getTreeList()
@@ -229,9 +235,11 @@ onMounted(() => {
         ref="dialogRef"
         v-model:dialogVisible="dialogVisible"
         title="创建部门"
-        :options="options"
-        :formOptions="formOptions"
         @confirm="confirm"
-    ></Dialog>
+        @cancel="cancel"
+        destroyOnClose
+    >
+        <Form ref="formRef" :options="options" :formOptions="formOptions"></Form>
+    </Dialog>
 </template>
 <style lang="scss" scoped></style>

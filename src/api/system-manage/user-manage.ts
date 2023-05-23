@@ -34,3 +34,14 @@ export const getDeptList = () => {
         method: 'GET'
     })
 }
+
+export const uploadAvatar = (id: number, data: ArrayBuffer) => {
+    return request({
+        url: `/upload/avatar/${id}`,
+        method: 'POST',
+        data,
+        headers: {
+            'content-type': 'multipart/form-data'
+        }
+    })
+}

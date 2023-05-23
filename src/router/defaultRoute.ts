@@ -32,6 +32,14 @@ const defaultRoute = [
                     title: '角色管理',
                     icon: 'TeamOutlined'
                 }
+            },
+            {
+                path: '/system-management/menu-management',
+                component: () => import('../views/system-manage/menu-manage/index.vue'),
+                meta: {
+                    title: '菜单管理',
+                    icon: 'TeamOutlined'
+                }
             }
         ]
     }

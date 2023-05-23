@@ -35,6 +35,8 @@ router.beforeEach((to, from, next) => {
     } else {
         if (whiteRoute.includes(to.path)) {
             next()
+        } else {
+            next('/login')
         }
     }
     nprogress.done()
