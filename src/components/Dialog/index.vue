@@ -70,7 +70,7 @@ defineExpose({
 </script>
 <template>
     <a-modal
-        v-model:visible="dialogVisible"
+        v-model:visible="props.dialogVisible"
         @ok="handleConfirm"
         @cancel="handleCancel"
         v-bind="$attrs"

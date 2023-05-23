@@ -6,6 +6,7 @@ import { message, Form } from 'ant-design-vue'
 import type { FormOption } from '../../type'
 import { addUser, updateUser, getDeptList } from '@/api/system-manage/user-manage'
 import { validPassword, validEmail, validPhone } from '@/utils/validRules'
+
 const props = defineProps({
     form: { type: Object as PropType<FormOption>, default: () => {}, required: true },
     isEdit: {

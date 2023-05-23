@@ -6,6 +6,7 @@ import Search from './components/search/index.vue'
 import dayjs from 'dayjs'
 import { message } from 'ant-design-vue'
 import type { FormOption } from './type'
+
 const columns = [
     {
         title: '用户名',
@@ -118,7 +119,9 @@ const getTableData = async () => {
         const res: any = await getUserData(queryParams.value)
         tableData.value = res.rows
         total.value = res.total
+        loading.value = false
     } catch (error) {
+        // console.log(loading.value)
         console.log(error)
     } finally {
         loading.value = false
@@ -185,6 +188,7 @@ onMounted(() => {
             :loading="loading"
             :pagination="pagination"
             bordered
+            rowKey="_id"
             :row-class-name="(_record, index) => (index % 2 === 1 ? 'table-striped' : null)"
             :scroll="{ x: 1800, y: 1000, scrollToFirstRowOnChange: true }"
             @change="pageChange"
@@ -204,11 +208,22 @@ onMounted(() => {
                 </template>
             </template>
         </a-table>
-        <Dialog ref="dialogRef" :form="form" @refresh="getTableData" :isEdit="isEdit"></Dialog>
+        <Dialog
+            ref="dialogRef"
+            :form="form"
+            @refresh="getTableData"
+            :isEdit="isEdit"
+            :dialogVisible="false"
+        >
+        </Dialog>
     </a-card>
 </template>
 <style lang="scss" scoped>
 .ant-table-striped ::v-deep(.table-striped) td {
     background-color: #fafafa;
+}
+.img-wrap {
+    width: 200px;
+    height: 200px;
 }
 </style>

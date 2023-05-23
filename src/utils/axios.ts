@@ -2,14 +2,20 @@
  * @Author: hukun 1228836483@qq.com
  * @Date: 2022-07-31 01:24:09
  * @LastEditors: Ikun
- * @LastEditTime: 2023-01-14 00:18:33
- * @FilePath: /code/project/src/utils/axios.ts
+ * @LastEditTime: 2023-03-18 16:55:33
+ * @FilePath: /Code/project/src/utils/axios.ts
  * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
  */
-import axios from 'axios'
+import axios, { AxiosError } from 'axios'
+
 import config from '../config/index'
 import { message } from 'ant-design-vue'
 import { useRouter } from 'vue-router'
+
+// // 重新请求的列表
+// const retryList = []
+// // token是否过期
+// let isExpired: boolean = false
 const CODE = {
     PARAMS_ERROR: '请求参数错误', // 参数错误
     USER_VALID_ERROR: '账号或密码错误', // 用户账号或密码错误
@@ -20,40 +26,78 @@ const CODE = {
 const router = useRouter()
 const instance = axios.create({
     baseURL: config.baseUrl,
-    timeout: 5000
+    timeout: 5000,
+    headers: { 'Content-Type': 'application/json' },
+    retry: 3,
+    retryTime: 1000
 })
-instance.interceptors.request.use((req) => {
-    const token = localStorage.getItem('token')
-    if (req.headers && !req.headers.Authorization) {
-        req.headers.Authorization = token ? 'Bearer ' + token : ''
+instance.interceptors.request.use(
+    (req) => {
+        const token = localStorage.getItem('token')
+        if (req.headers && !req.headers.Authorization) {
+            req.headers.Authorization = token ? 'Bearer ' + token : ''
+        }
+        return req
+    },
+    (err: AxiosError) => Promise.reject(err.message)
+)
+instance.interceptors.response.use(
+    (res) => {
+        const { data, msg, code } = res.data
+        switch (code) {
+            case 200:
+                return data
+            case 400:
+                message.error(msg || CODE.PARAMS_ERROR)
+                return Promise.reject(msg || CODE.PARAMS_ERROR)
+            case 401:
+                // if (!isExpired) {
+                // isExpired = true
+                // 获取token
+                // instance.defaults.headers = config.headers
+                // retryList.push(res.config.params)
+                // retryList.forEach(item=>{
+                //    Item(res.config.params)
+                // })
+                // retryList=[]
+                // } else {
+                // retryList.push((config)=>{
+                // Promise.resolve(request(config))
+                // })
+                // }
+                router.replace('/login')
+                message.error(msg || CODE.USER_LOGIN_ERROR)
+                return Promise.reject(msg || CODE.USER_LOGIN_ERROR)
+            case 422:
+                message.error(msg || CODE.USER_VALID_ERROR)
+                return Promise.reject(msg || CODE.USER_VALID_ERROR)
+            default:
+                message.error(msg)
+                return Promise.reject(msg)
+        }
+    },
+    (err: AxiosError) => {
+        const config = err.config
+        return new Promise<void>((resolve, reject) => {
+            if (config.retry <= 0) {
+                reject(err.message)
+            } else {
+                setTimeout(() => {
+                    config.retry = config.retry - 1
+                    resolve(instance(config))
+                }, config.retryTime)
+            }
+        })
     }
-    return req
-})
-instance.interceptors.response.use((res) => {
-    const { data, msg, code } = res.data
-    switch (code) {
-        case 200:
-            return data
-        case 400:
-            message.error(msg || CODE.PARAMS_ERROR)
-            return Promise.reject(msg || CODE.PARAMS_ERROR)
-        case 401:
-            router.replace('/login')
-            message.error(msg || CODE.USER_LOGIN_ERROR)
-            return Promise.reject(msg || CODE.USER_LOGIN_ERROR)
-        case 422:
-            message.error(msg || CODE.USER_VALID_ERROR)
-            return Promise.reject(msg || CODE.USER_VALID_ERROR)
-        default:
-            message.error(msg)
-            return Promise.reject(msg)
-    }
-})
-
+)
+let controller
 function request(options) {
+    controller && controller.abort()
+    controller = new AbortController()
+    instance.defaults.signal = controller.signal
     options.method = options.method || 'get'
     if (options.method.toLowerCase() === 'get') {
-        options.params = options.data
+        options.params = options.params || options.data
     }
     const mockFlag = options.mock || false
     if (config.ENV === 'production') {

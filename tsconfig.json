@@ -30,6 +30,5 @@
         "src/**/*.vue",
         "src/router/index.js",
         "src/utils/canvas.ts",
-        "./auto-imports.d.ts"
     ],
 }

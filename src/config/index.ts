@@ -1,15 +1,17 @@
 const ENV = import.meta.env.MODE || 'production'
+const BaseUrl = import.meta.env.VITE_APP_BASE_URL
+
 const config = {
     development: {
-        baseUrl: '/api',
+        baseUrl: BaseUrl,
         mockUrl: 'https://www.fastmock.site/mock/90588b8c15b0d8765170506d61d4f183/api'
     },
     test: {
-        baseUrl: '',
+        baseUrl: BaseUrl,
         mockUrl: 'https://www.fastmock.site/mock/90588b8c15b0d8765170506d61d4f183/api'
     },
     prod: {
-        baseUrl: '',
+        baseUrl: BaseUrl,
         mockUrl: 'https://www.fastmock.site/mock/90588b8c15b0d8765170506d61d4f183/api'
     }
 }

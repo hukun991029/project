@@ -1,22 +1,28 @@
 <script lang="ts" setup>
 import { useRouter } from 'vue-router'
 import userStore from '@/store/store'
+import UploadAvatar from './UploadAvatar.vue'
+import { ref } from 'vue'
 const store = userStore()
+const avatar = store?.userInfo?.avatar
 const username = store?.userInfo?.username
 const router = useRouter()
-
+const avatarRef = ref()
 const menuClick = ({ key }) => {
     if (key === 'loginOut') {
         store.clearUserInfo()
         localStorage.clear()
         router.replace('/login')
+    } else if (key === 'avatarSet') {
+        avatarRef.value.showDialog()
+        console.log(1)
     }
 }
 </script>
 <template>
     <a-dropdown>
         <div class="user-info-wrap icon-wrap" @click.prevent>
-            <img class="user-img" src="../../assets/Image/user.png" alt="" />
+            <img class="user-img" :src="avatar" alt="" />
             <span class="link-title">{{ username }}</span>
         </div>
         <template #overlay>
@@ -33,6 +39,12 @@ const menuClick = ({ key }) => {
                         <span class="menu-info">个人设置</span>
                     </span>
                 </a-menu-item>
+                <a-menu-item key="avatarSet">
+                    <span>
+                        <i class="iconfont icon-shezhi"></i>
+                        <span class="menu-info">头像设置</span>
+                    </span>
+                </a-menu-item>
                 <a-menu-divider />
                 <a-menu-item key="loginOut">
                     <span>
@@ -43,6 +55,7 @@ const menuClick = ({ key }) => {
             </a-menu>
         </template>
     </a-dropdown>
+    <UploadAvatar ref="avatarRef"></UploadAvatar>
 </template>
 <style lang="scss" scoped>
 .link-title {
