@@ -2,7 +2,7 @@
 import { createVNode, onMounted, ref } from 'vue'
 import { Modal } from 'ant-design-vue'
 import { ExclamationCircleOutlined } from '@ant-design/icons-vue'
-import { getMenuTree, getList } from '@/api/system-manage/menu-manage'
+import { getList } from '@/api/system-manage/menu-manage'
 import dayjs from 'dayjs'
 import Icon from '@/utils/icon'
 const emits = defineEmits(['add', 'edit', 'del'])
@@ -92,9 +92,9 @@ const handleEdit = (row) => {
 }
 const handleDel = (row) => {
     Modal.confirm({
-        title: '二次确认',
+        title: '您确认删除该菜单吗?',
         icon: createVNode(ExclamationCircleOutlined),
-        content: '您确认删除该菜单吗?',
+        content: '',
         okText: '确认',
         cancelText: '取消',
         onOk() {

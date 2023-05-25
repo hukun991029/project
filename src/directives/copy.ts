@@ -1,5 +1,5 @@
 export default {
-    mounted(el, binding) {
+    mounted(el) {
         el.focus()
         console.log(el)
     }

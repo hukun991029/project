@@ -13,10 +13,15 @@ defineProps({
         type: Array,
         default: () => [],
         required: true
+    },
+    menuOptions: {
+        type: Array,
+        default: () => [],
+        required: true
     }
 })
 const formRef = ref()
-const menuOptions = reactive([])
+
 const rules: Record<string, Rule[]> = {
     menuName: [{ required: true, trigger: 'blur' }]
 }
@@ -43,6 +48,7 @@ defineExpose({
                     :options="menuOptions"
                     placeholder="请选择父级菜单,不选则默认一级菜单"
                     change-on-select
+                    :fieldNames="{ label: 'menuName', value: '_id', children: 'children' }"
                 />
             </a-form-item>
             <a-form-item label="菜单类型" name="menuType">

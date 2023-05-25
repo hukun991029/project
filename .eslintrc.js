@@ -9,7 +9,7 @@ module.exports = {
     extends: [
         'eslint:recommended',
         'plugin:vue/vue3-essential',
-        'plugin:@typescript-eslint/recommended',
+        'plugin:@typescript-eslint/recommended'
     ],
     parserOptions: {
         ecmaVersion: 'latest',
@@ -18,6 +18,7 @@ module.exports = {
     },
     plugins: ['vue', '@typescript-eslint'],
     rules: {
+        'no-undef': 'off',
         '@typescript-eslint/no-non-null-assertion': 'off',
         '@typescript-eslint/no-explicit-any': 'off',
         '@typescript-eslint/no-empty-function': 'off',
@@ -46,4 +47,3 @@ module.exports = {
         'no-prototype-builtins': 'off'
     }
 }
-

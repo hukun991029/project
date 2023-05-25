@@ -1,9 +1,10 @@
 import request from '@/utils/axios'
 
-export const getRoleList = () => {
+export const getRoleList = (params) => {
     return request({
         url: '/role/list',
-        method: 'GET'
+        method: 'GET',
+        params
     })
 }
 

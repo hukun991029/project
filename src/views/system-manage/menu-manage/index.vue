@@ -6,7 +6,7 @@ import { ref, reactive, onMounted } from 'vue'
 import * as $Icon from '@ant-design/icons-vue'
 import type { FormInstance } from 'ant-design-vue'
 import { FormState } from './type'
-import { addAndEditMenu } from '@/api/system-manage/menu-manage'
+import { getMenuTree, addAndEditMenu } from '@/api/system-manage/menu-manage'
 interface Record extends FormState {
     _id: string
     children: Record[]
@@ -31,6 +31,7 @@ let formState = reactive<FormState>({
     permissionMarker: '',
     action: 'add'
 })
+const treeList = ref([])
 const setFormState = (form: Partial<FormState>) => {
     formState = Object.assign(formState, form)
 }
@@ -52,15 +53,20 @@ const addMenu = () => {
 }
 const handleAdd = (row: Record) => {
     setDialogVisible(true)
-    setFormState({ action: 'add' })
+    setFormState({ action: 'add', parentId: [row._id] })
 }
 const handleEdit = (row: Record) => {
     setDialogVisible(true)
     setFormState({ action: 'edit' })
 }
 const handleDel = (row: Record) => {}
+const getTreeList = async () => {
+    const res: any = await getMenuTree()
+    treeList.value = res
+}
 onMounted(async () => {
     iconList.value = getIcons(Object.keys($Icon))
+    getTreeList()
 })
 </script>
 <template>
@@ -71,12 +77,13 @@ onMounted(async () => {
             </a-button>
             <Table @add="handleAdd" @edit="handleEdit" @del="handleDel"></Table>
         </a-card>
-        <Dialog :dialogVisible="dialogVisible" @cancel="cancel" @confirm="confirm" title="新增菜单">
+        <Dialog title="新增菜单" :dialogVisible="dialogVisible" @cancel="cancel" @confirm="confirm">
             <template #default>
                 <Form
                     ref="formRef"
                     :formState="formState"
                     :iconList="iconList"
+                    :menuOptions="treeList"
                     @validate="validateForm"
                 ></Form>
             </template>

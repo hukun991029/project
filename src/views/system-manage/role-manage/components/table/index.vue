@@ -2,7 +2,7 @@
 import dayjs from 'dayjs'
 import { roleOperate } from '@/api/system-manage/role-manage'
 import { message } from 'ant-design-vue'
-const emits = defineEmits(['refresh'])
+const emits = defineEmits(['refresh', 'edit', 'setPermission'])
 const columns = [
     {
         title: '角色名称',
@@ -47,8 +47,12 @@ const columns = [
         align: 'center'
     }
 ]
-const handleEdit = (record) => {}
-const handleSetPermission = (record) => {}
+const handleEdit = (record) => {
+    emits('edit', record)
+}
+const handleSetPermission = (record) => {
+    emits('setPermission', record)
+}
 
 const handleDel = async (record) => {
     try {
