@@ -22,13 +22,13 @@ const iconList = ref<string[]>([])
 const formRef = ref<FormInstance>()
 let formState = reactive<FormState>({
     parentId: [],
-    menuType: 1,
-    menuName: '',
-    menuIcon: undefined,
-    routePath: '',
-    componentPath: '',
-    menuStatus: 1,
-    permissionMarker: '',
+    type: 0,
+    name: '',
+    icon: '',
+    path: '',
+    component: '',
+    status: 0,
+    isCache: 0,
     action: 'add'
 })
 const treeList = ref([])

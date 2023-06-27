@@ -14,7 +14,7 @@ const props = defineProps({
 const store = userStore()
 const userId = store.userInfo.userId
 
-const emits = defineEmits(['update:dialogVisible'])
+const emits = defineEmits(['update:dialogVisible', 'getImageUrl'])
 const getBase64 = (img: Blob, callback: (base64Url: string) => void) => {
     const reader = new FileReader()
     reader.addEventListener('load', () => callback(reader.result as string))
@@ -32,9 +32,10 @@ const handleOk = async () => {
         const data = new FormData()
         data.append('file', fileList.value[0].originFileObj)
         const res = await uploadAvatar(userId, data)
-        store.setUserInfo({ avatarUrl: res.src })
+        store.setUserInfo({ avatar: res.url })
         fileList.value = []
         emits('update:dialogVisible', false)
+        emits('getImageUrl', res.url)
     } catch (error) {
         console.log(error)
     }

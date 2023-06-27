@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import Search from './components/search/index.vue'
 import dayjs from 'dayjs'
-import Dialog from '@/components/dialog/index.vue'
+import Dialog from '@/components/Dialog/index.vue'
 import type { Options } from '@/components/Form/type'
 import Form from '@/components/Form/index.vue'
 import {

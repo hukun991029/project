@@ -17,7 +17,7 @@ const toggleCollapsed = (): void => {
 </template>
 <style lang="scss" scoped>
 .collapse-wrap {
-    position: fixed;
+    position: absolute;
     display: flex;
     justify-content: center;
     align-items: center;

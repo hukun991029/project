@@ -6,7 +6,8 @@ import Search from './components/search/index.vue'
 import dayjs from 'dayjs'
 import { message } from 'ant-design-vue'
 import type { FormOption } from './type'
-const columns = [
+import type { ColumnsOptions } from '@/components/Table/type'
+const columns: ColumnsOptions[] = [
     {
         title: '用户名',
         dataIndex: 'username',
@@ -143,7 +144,7 @@ const refresh = (val) => {
     getTableData()
 }
 
-const handelEdit = (record) => {
+const handle = (record) => {
     const { username, email, phone, address, deptList } = record
     const { province, city, area } = address
     form.value = {
@@ -156,7 +157,7 @@ const handelEdit = (record) => {
     isEdit.value = true
     dialogRef.value.showDialog()
 }
-const handelDel = async (record) => {
+const handleDel = async (record) => {
     const params = {
         userId: record.userId
     }
@@ -198,9 +199,9 @@ onMounted(() => {
                     </template>
                 </template>
                 <template v-if="column.key === 'edit'">
-                    <a @click="handelEdit(record)">编辑</a>
+                    <a @click="handle(record)">编辑</a>
                     <a-divider type="vertical" />
-                    <a @click="handelDel(record)">删除</a>
+                    <a @click="handleDel(record)">删除</a>
                 </template>
             </template>
         </a-table>

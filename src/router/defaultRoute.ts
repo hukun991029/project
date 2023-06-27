@@ -40,6 +40,14 @@ const defaultRoute = [
                     title: '菜单管理',
                     icon: 'TeamOutlined'
                 }
+            },
+            {
+                path: '/system-management/test-management',
+                component: () => import('../views/system-manage/test-manage/index.vue'),
+                meta: {
+                    title: '测试管理',
+                    icon: 'TeamOutlined'
+                }
             }
         ]
     }

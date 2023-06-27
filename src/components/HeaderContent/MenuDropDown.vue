@@ -2,13 +2,11 @@
 import { useRouter } from 'vue-router'
 import userStore from '@/store/store'
 import UploadAvatarDialog from './UploadAvatarDialog.vue'
-import { ref, watch } from 'vue'
+import { ref } from 'vue'
 console.log(userStore())
-
 const store = userStore()
 const username = store?.userInfo?.username
-let avatarUrl = store.userInfo.avatarUrl
-
+let avatar = ref(store?.userInfo?.avatar)
 const router = useRouter()
 const dialogVisible = ref<boolean>(false)
 const menuClick = ({ key }) => {
@@ -21,19 +19,15 @@ const menuClick = ({ key }) => {
         router.replace('/login')
     }
 }
-watch(
-    () => avatarUrl,
-    (newVal) => {
-        console.log(newVal)
-        avatarUrl = newVal
-    }
-)
+const getImageUrl = (url: string) => {
+    avatar.value = url
+}
 </script>
 <template>
     <div>
         <a-dropdown>
             <div class="user-info-wrap icon-wrap" @click.prevent>
-                <img class="user-img" :src="avatarUrl" alt="" />
+                <img class="user-img" :src="avatar" alt="" />
                 <span class="link-title">{{ username }}</span>
             </div>
 
@@ -64,6 +58,7 @@ watch(
         <UploadAvatarDialog
             :dialogVisible="dialogVisible"
             @update:dialogVisible="dialogVisible = $event"
+            @getImageUrl="getImageUrl"
         ></UploadAvatarDialog>
     </div>
 </template>

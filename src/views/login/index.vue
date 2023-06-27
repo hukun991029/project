@@ -1,17 +1,15 @@
 <script lang="ts" setup>
 import { login } from '@/api/login'
 import userStore from '@/store/store'
-// import { reactive } from 'vue'
 import { useRouter } from 'vue-router'
 import { UserOutlined, LockOutlined } from '@ant-design/icons-vue'
-import { reactive } from 'vue'
 interface FormState {
-    username: string
+    email: string
     password: string
     checked: boolean
 }
 const formState = reactive<FormState>({
-    username: '',
+    email: '',
     password: '',
     checked: false
 })
@@ -40,13 +38,10 @@ const onFinish = async (values: any) => {
                 @finish="onFinish"
             >
                 <a-form-item
-                    name="username"
-                    :rules="[
-                        { required: true, message: '请输入您的用户名', trigger: 'blur' },
-                        { min: 3, max: 8, message: '用户名长度3-8位' }
-                    ]"
+                    name="email"
+                    :rules="[{ required: true, message: '请输入您的用户名', trigger: 'blur' }]"
                 >
-                    <a-input v-model:value="formState.username" placeholder="请输入用户名">
+                    <a-input v-model:value="formState.email" placeholder="请输入用户名">
                         <template #prefix>
                             <user-outlined type="user" style="color: rgba(0, 0, 0, 0.25)" />
                         </template>

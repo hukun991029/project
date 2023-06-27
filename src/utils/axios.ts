@@ -2,8 +2,8 @@
  * @Author: hukun 1228836483@qq.com
  * @Date: 2022-07-31 01:24:09
  * @LastEditors: Ikun
- * @LastEditTime: 2023-05-23 20:52:16
- * @FilePath: /Code/project/src/utils/axios.ts
+ * @LastEditTime: 2023-06-15 15:50:37
+ * @FilePath: /Code/project /src/utils/axios.ts
  * @Description: axios请求
  */
 import axios from 'axios'
@@ -31,6 +31,8 @@ instance.interceptors.request.use((req) => {
 })
 instance.interceptors.response.use((res) => {
     const { data, msg, code } = res.data
+    console.log(res.data)
+
     switch (code) {
         case 200:
             return data
@@ -38,7 +40,9 @@ instance.interceptors.response.use((res) => {
             message.error(msg || CODE.PARAMS_ERROR)
             return Promise.reject(msg || CODE.PARAMS_ERROR)
         case 401:
-            router.replace('/login')
+            console.log(router)
+
+            router.replace({ path: '/login' })
             message.error(msg || CODE.USER_LOGIN_ERROR)
             return Promise.reject(msg || CODE.USER_LOGIN_ERROR)
         case 422:

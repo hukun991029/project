@@ -10,7 +10,7 @@ export const getRoleList = (params) => {
 
 export const roleOperate = (data) => {
     return request({
-        url: '/role/operate',
+        url: '/add/role',
         method: 'POST',
         data
     })

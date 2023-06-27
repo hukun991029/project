@@ -1,11 +1,11 @@
 export interface FormState {
     parentId: string[] | null
-    menuType: number
-    menuName: string
-    menuIcon: string | undefined
-    routePath: string
-    componentPath: string
-    menuStatus: number
-    permissionMarker: string,
-    action:string
+    type: number
+    name: string
+    icon: string | undefined
+    path: string
+    component: string
+    status: number
+    isCache: number
+    action: string
 }

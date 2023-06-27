@@ -259,3 +259,40 @@ export const chineseToNumber = (chinese: string) => {
     number += temp
     return number
 }
+
+export const combine = (...chunks) => {
+    const res: any = []
+    const helper = (chunkIndex, prev) => {
+        const chunk = chunks[chunkIndex]
+        const isLast = chunkIndex === chunks.length - 1
+        for (const item of chunk) {
+            const cur = prev.concat(item)
+            if (isLast) {
+                res.push(cur)
+            } else {
+                helper(chunkIndex + 1, cur)
+            }
+        }
+    }
+    helper(0, [])
+    return res
+}
+
+// 函数重载
+export function addMethod(object, name, fn) {
+    // 先把原来的object[name] 方法，保存在old中
+    const old = object[name]
+
+    // 重新定义 object[name] 方法
+    object[name] = function () {
+        // 如果函数需要的参数 和 实际传入的参数 的个数相同，就直接调用fn
+        if (fn.length === arguments.length) {
+            return fn.apply(this, arguments)
+
+            // 如果不相同,判断old 是不是函数，
+            // 如果是就调用old，也就是刚才保存的 object[name] 方法
+        } else if (typeof old === 'function') {
+            return old.apply(this, arguments)
+        }
+    }
+}

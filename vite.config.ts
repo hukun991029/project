@@ -1,10 +1,10 @@
 /*
  * @Author: IKun
  * @Date: 2022-04-07 09:15:53
- * @LastEditTime: 2023-05-18 14:17:55
+ * @LastEditTime: 2023-06-26 17:41:48
  * @LastEditors: Ikun
  * @Description: vite配置
- * @FilePath: \CODE\project\vite.config.ts
+ * @FilePath: /project /vite.config.ts
  */
 import { defineConfig, loadEnv } from 'vite'
 import AutoImport from 'unplugin-auto-import/vite'
@@ -80,9 +80,9 @@ export default defineConfig(({ mode }) => {
             proxy: {
                 // with options
                 '/api': {
-                    target: 'http://localhost:3000/',
-                    changeOrigin: true,
-                    rewrite: (path) => path.replace(/^\/api/, '')
+                    target: 'http://localhost:7001/api',
+                    changeOrigin: true
+                    // rewrite: (path) => path.replace(/^\/api/, '')
                 }
             }
         }
